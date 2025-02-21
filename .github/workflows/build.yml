@@ -1,0 +1,36 @@
+name: Build Stardew Valley Mod
+
+on:
+  push:
+    branches:
+      - main  # Ou o nome da sua branch principal
+  pull_request:
+    branches:
+      - main
+
+jobs:
+  build:
+    runs-on: windows-latest  # Utiliza o runner do Windows para compilar o mod
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v2
+
+      - name: Set up .NET Core
+        uses: actions/setup-dotnet@v1
+        with:
+          dotnet-version: '6.0'  # Ajuste a versão do .NET conforme necessário
+
+      - name: Restore dependencies
+        run: dotnet restore
+
+      - name: Build the mod
+        run: dotnet build --configuration Release
+
+      - name: Publish the mod
+        run: dotnet publish --configuration Release --output ./publish
+
+      - name: Upload mod as artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: mod-build
+          path: ./publish
