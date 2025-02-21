@@ -4,7 +4,7 @@ using StardewModdingAPI;
 using StardewModdingAPI.Events;
 using StardewValley;
 
-namespace ChatLoggerMod
+namespace everything_written_in_the_chat_is_recorded
 {
     public class ModEntry : Mod
     {
@@ -19,9 +19,10 @@ namespace ChatLoggerMod
 
         private void OnSaveLoaded(object sender, SaveLoadedEventArgs e)
         {
-            string saveName = Game1.GetSaveGameName(); // Nome do save
-            string timestamp = DateTime.Now.ToString("yyyy-MM-dd_HH-mm-ss"); // Data e hora
-            string fileName = $"{saveName}.{timestamp}.txt"; // Nome do arquivo
+            string saveName = Game1.GetSaveGameName();
+            string timestamp = DateTime.Now.ToString("yyyy-MM-dd_HH-mm-ss");
+            string fileName = $"{saveName}.{timestamp}.txt";
+
             logFilePath = Path.Combine(Helper.DirectoryPath, fileName);
 
             LogMessage("=== Início do registro do chat ===");
@@ -36,14 +37,21 @@ namespace ChatLoggerMod
         private void OnReturnedToTitle(object sender, ReturnedToTitleEventArgs e)
         {
             LogMessage("=== Fim do registro do chat ===");
-            logFilePath = null; // Reset no arquivo ao voltar para o menu
+            logFilePath = null;
         }
 
         private void LogMessage(string message)
         {
             if (!string.IsNullOrEmpty(logFilePath))
             {
-                File.AppendAllText(logFilePath, message + Environment.NewLine);
+                try
+                {
+                    File.AppendAllText(logFilePath, message + Environment.NewLine);
+                }
+                catch (Exception ex)
+                {
+                    Monitor.Log($"Erro ao escrever no arquivo de log: {ex.Message}", LogLevel.Error);
+                }
             }
         }
     }
