@@ -1,0 +1,14 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net8.0</TargetFramework>
+    <OutputPath>bin/Release/</OutputPath>
+    <RootNamespace>ModProject</RootNamespace>
+    <AssemblyName>ModProject</AssemblyName>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="StardewModdingAPI" Version="4.0.0" />
+  </ItemGroup>
+
+</Project>

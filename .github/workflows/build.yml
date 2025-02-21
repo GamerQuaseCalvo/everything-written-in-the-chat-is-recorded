@@ -16,13 +16,13 @@ jobs:
           dotnet-version: 8.0.x
 
       - name: Restaurar dependências
-        run: dotnet restore
+        run: dotnet restore src/
 
       - name: Compilar o mod
-        run: dotnet build --configuration Release
+        run: dotnet build src/ --configuration Release
 
       - name: Salvar artefato
         uses: actions/upload-artifact@v4
         with:
           name: mod-build
-          path: bin/Release/
+          path: src/bin/Release/
